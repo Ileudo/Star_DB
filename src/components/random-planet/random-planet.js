@@ -10,7 +10,13 @@ class RandomPlanet extends Component {
     this.swapiService = new SwapiService();
 
     this.state = {
-      planet: {}, // Сначала сделаем планету пустым объект, чтобы наш код в render() не ругался при деструктуризации.
+      planet: {
+        id: null,
+        name: null,
+        population: null,
+        rotationPeriod: null,
+        diameter: null,
+      },
     };
 
     this.updatePlanet();
@@ -20,18 +26,23 @@ class RandomPlanet extends Component {
   // быть осторожными со значением this. И теперь мы можем вставить этот кусочек кода в updatePlanet(). Намного легче читать
   // такой код, правда?
   onPlanetLoaded = (planet) => {
+    console.log('check');
     this.setState({ planet });
+    console.log(this.state.planet);
   };
 
   updatePlanet() {
     const id = Math.floor(Math.random() * 25) + 2;
-    this.swapiService.getPlanet(id).then(this.onPlanetLoaded);
+    this.swapiService.getPlanet(id).then((p) => {
+      const planet = { ...p, id: id };
+      this.onPlanetLoaded(planet);
+    });
   }
 
   render() {
-    const {
-      planet: { id, name, population, rotationPeriod, diameter },
-    } = this.state;
+    const { id, name, population, rotationPeriod, diameter } =
+      this.state.planet;
+
     return (
       <div className="random-planet jumbotron rounded">
         <img

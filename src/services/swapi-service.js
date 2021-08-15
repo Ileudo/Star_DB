@@ -4,8 +4,6 @@ class SwapiService {
   }
 
   async getResource(url) {
-    console.log(this.BASE_URL);
-
     const res = await fetch(`${this.BASE_URL}${url}`);
 
     if (!res.ok) {
