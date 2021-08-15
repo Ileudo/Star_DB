@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
+import Spinner from '../spinner';
 
 import './random-planet.css';
 
@@ -20,13 +21,13 @@ class RandomPlanet extends Component {
     };
 
     this.updatePlanet();
+    console.log(this.state.planet);
   }
 
   // Как всегда используем функцию-стрелку, поскольку мы будем передавать эту функцию в другую фуннкцию, и нам нужно
   // быть осторожными со значением this. И теперь мы можем вставить этот кусочек кода в updatePlanet(). Намного легче читать
   // такой код, правда?
   onPlanetLoaded = (planet) => {
-    console.log('check');
     this.setState({ planet });
     console.log(this.state.planet);
   };
@@ -43,6 +44,8 @@ class RandomPlanet extends Component {
     const { id, name, population, rotationPeriod, diameter } =
       this.state.planet;
 
+    // return <Spinner />;
+
     return (
       <div className="random-planet jumbotron rounded">
         <img
@@ -51,6 +54,7 @@ class RandomPlanet extends Component {
         />
         <div>
           <h4>{name}</h4>
+          <Spinner />
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
               <span className="term">Population</span>
