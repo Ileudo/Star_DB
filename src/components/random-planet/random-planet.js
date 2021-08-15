@@ -16,8 +16,12 @@ class RandomPlanet extends Component {
       loading: true,
       error: false,
     };
+  }
 
+  componentDidMount() {
     this.updatePlanet();
+    this.interval = setInterval(this.updatePlanet, 10000);
+    // clearInterval(this.interval);
   }
 
   // Используем функцию-стрелку, поскольку мы будем передавать эту функцию в другую фуннкцию, и нам нужно
@@ -30,9 +34,8 @@ class RandomPlanet extends Component {
     this.setState({ error: true, loading: false });
   };
 
-  updatePlanet() {
-    const id = 15000;
-    // const id = Math.floor(Math.random() * 16) + 2;
+  updatePlanet = () => {
+    const id = Math.floor(Math.random() * 16) + 2;
     this.swapiService
       .getPlanet(id)
       .then((p) => {
@@ -40,7 +43,7 @@ class RandomPlanet extends Component {
         this.onPlanetLoaded(planet);
       })
       .catch(this.onError);
-  }
+  };
 
   render() {
     const { planet, loading, error } = this.state;
