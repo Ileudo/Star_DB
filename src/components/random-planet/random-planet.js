@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
+import ErrorIndicator from '../error-indicator/error-indicator';
 import Spinner from '../spinner';
 
 import './random-planet.css';
@@ -11,68 +12,82 @@ class RandomPlanet extends Component {
     this.swapiService = new SwapiService();
 
     this.state = {
-      planet: {
-        id: null,
-        name: null,
-        population: null,
-        rotationPeriod: null,
-        diameter: null,
-      },
+      planet: {},
+      loading: true,
+      error: false,
     };
 
     this.updatePlanet();
-    console.log(this.state.planet);
   }
 
-  // Как всегда используем функцию-стрелку, поскольку мы будем передавать эту функцию в другую фуннкцию, и нам нужно
-  // быть осторожными со значением this. И теперь мы можем вставить этот кусочек кода в updatePlanet(). Намного легче читать
-  // такой код, правда?
+  // Используем функцию-стрелку, поскольку мы будем передавать эту функцию в другую фуннкцию, и нам нужно
+  // быть осторожными со значением this. Теперь мы можем вставить этот кусоч кода в updatePlanet().
   onPlanetLoaded = (planet) => {
-    this.setState({ planet });
-    console.log(this.state.planet);
+    this.setState({ planet, loading: false });
+  };
+
+  onError = (err) => {
+    this.setState({ error: true, loading: false });
   };
 
   updatePlanet() {
-    const id = Math.floor(Math.random() * 25) + 2;
-    this.swapiService.getPlanet(id).then((p) => {
-      const planet = { ...p, id: id };
-      this.onPlanetLoaded(planet);
-    });
+    const id = 15000;
+    // const id = Math.floor(Math.random() * 16) + 2;
+    this.swapiService
+      .getPlanet(id)
+      .then((p) => {
+        const planet = { ...p, id };
+        this.onPlanetLoaded(planet);
+      })
+      .catch(this.onError);
   }
 
   render() {
-    const { id, name, population, rotationPeriod, diameter } =
-      this.state.planet;
+    const { planet, loading, error } = this.state;
 
-    // return <Spinner />;
+    const hasData = !(loading || error);
+
+    const spinner = loading ? <Spinner /> : null;
+    const content = hasData ? <PlanetView planet={planet} /> : null;
+    const errorIndicator = error ? <ErrorIndicator /> : null;
 
     return (
       <div className="random-planet jumbotron rounded">
-        <img
-          className="planet-image"
-          src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
-        />
-        <div>
-          <h4>{name}</h4>
-          <Spinner />
-          <ul className="list-group list-group-flush">
-            <li className="list-group-item">
-              <span className="term">Population</span>
-              <span>{population}</span>
-            </li>
-            <li className="list-group-item">
-              <span className="term">Rotation Period</span>
-              <span>{rotationPeriod}</span>
-            </li>
-            <li className="list-group-item">
-              <span className="term">Diameter</span>
-              <span>{diameter}</span>
-            </li>
-          </ul>
-        </div>
+        {errorIndicator}
+        {spinner}
+        {content}
       </div>
     );
   }
 }
+
+const PlanetView = ({ planet }) => {
+  const { id, name, population, rotationPeriod, diameter } = planet;
+  return (
+    <React.Fragment>
+      <img
+        className="planet-image"
+        src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
+      />
+      <div>
+        <h4>{name}</h4>
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">
+            <span className="term">Population</span>
+            <span>{population}</span>
+          </li>
+          <li className="list-group-item">
+            <span className="term">Rotation Period</span>
+            <span>{rotationPeriod}</span>
+          </li>
+          <li className="list-group-item">
+            <span className="term">Diameter</span>
+            <span>{diameter}</span>
+          </li>
+        </ul>
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default RandomPlanet;
