@@ -21,7 +21,10 @@ class RandomPlanet extends Component {
   componentDidMount() {
     this.updatePlanet();
     this.interval = setInterval(this.updatePlanet, 10000);
-    // clearInterval(this.interval);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   // Используем функцию-стрелку, поскольку мы будем передавать эту функцию в другую фуннкцию, и нам нужно
@@ -38,8 +41,7 @@ class RandomPlanet extends Component {
     const id = Math.floor(Math.random() * 16) + 2;
     this.swapiService
       .getPlanet(id)
-      .then((p) => {
-        const planet = { ...p, id };
+      .then((planet) => {
         this.onPlanetLoaded(planet);
       })
       .catch(this.onError);

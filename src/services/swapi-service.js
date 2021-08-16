@@ -45,7 +45,7 @@ class SwapiService {
 
   _extractId(item) {
     const idRegExp = /\/([0-9])*\/$/;
-    const id = item.url.match(idRegExp)[1];
+    return item.url.match(idRegExp)[1];
   }
 
   //Принимаем на вход планету от API, а возвращаем объект в том формате, в каком мы его хотим видеть.
@@ -78,8 +78,8 @@ class SwapiService {
       id: this._extractId(person),
       name: person.name,
       gender: person.gender,
-      birthYear: person.birthYear,
-      eyeColor: person.eyeColor,
+      birthYear: person.birth_year,
+      eyeColor: person.eye_color,
     };
   };
 }
