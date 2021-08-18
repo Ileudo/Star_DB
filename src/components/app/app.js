@@ -52,12 +52,12 @@ class App extends Component {
 
         <PeoplePage />
 
-        <div className="row mb-2">
+        {/* <div className="row mb-2">
           <div className="col md-6">
             <ItemsList
               onItemSelected={this.onPersonSelected}
               getData={this.swapiService.getAllPlanets}
-              renderItem={(item) => item.name}
+              // renderItem={(item) => item.name}
             />
           </div>
           <div className="col md-6">
@@ -70,14 +70,14 @@ class App extends Component {
             <ItemsList
               onItemSelected={this.onPersonSelected}
               getData={this.swapiService.getAllStarships}
-              renderItem={(item) => item.name}
+              // renderItem={(item) => item.name}
             />
           </div>
           <div className="col md-6">
             <PersonDetails personId={this.state.selectedPerson} />
             <ErrorButton />
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

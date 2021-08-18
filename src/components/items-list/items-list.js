@@ -28,7 +28,9 @@ class ItemsList extends Component {
   renderItems(arr) {
     return arr.map((item) => {
       const { id } = item;
-      const label = this.props.renderItem(item); // Вывод информации внутри li списка
+      // console.log(this.props.children(item));
+      const label = this.props.children(item); // Вывод информации внутри li списка
+
       return (
         <li
           className="list-group-item"

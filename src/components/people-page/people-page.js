@@ -5,6 +5,27 @@ import ItemsList from '../items-list';
 import PersonDetails from '../person-details';
 import './people-page.css';
 
+class ErrorBoundary extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      hasError: false,
+    };
+  }
+  componentDidCatch() {
+    this.setState({ hasError: true });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <ErrorIndicator />;
+    }
+
+    return this.props.children;
+  }
+}
+
 const Row = ({ left, right }) => {
   return (
     <div className="row mb-2">
@@ -22,7 +43,6 @@ class PeoplePage extends Component {
 
     this.state = {
       selectedPerson: 3,
-      hasError: false,
     };
   }
 
@@ -30,27 +50,26 @@ class PeoplePage extends Component {
     this.setState({ selectedPerson: id });
   };
 
-  componentDidCatch(error, info) {
-    this.setState({ hasError: true });
-  }
-
   render() {
     if (this.state.hasError) {
       return <ErrorIndicator />;
     }
 
+    // Вывод доп. информации по клику
+    // Получение данных
     const itemsList = (
       <ItemsList
-        onItemSelected={this.onPersonSelected} // Вывод доп. информации по клику
-        getData={this.swapiService.getAllPeople} // Получение данных
-        renderItem={({ name, gender, birthYear }) =>
-          `${name} (${gender}, ${birthYear})`
-        } // рендер-функция
-      />
+        onItemSelected={this.onPersonSelected}
+        getData={this.swapiService.getAllPeople}
+      >
+        {(item) => `${item.name} (${item.birthYear})`}
+      </ItemsList>
     );
 
     const personDetails = (
-      <PersonDetails personId={this.state.selectedPerson} />
+      <ErrorBoundary>
+        <PersonDetails personId={this.state.selectedPerson} />
+      </ErrorBoundary>
     );
 
     return <Row left={itemsList} right={personDetails} />;
