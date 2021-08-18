@@ -2,38 +2,10 @@ import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import ErrorIndicator from '../error-indicator/error-indicator';
 import ItemsList from '../items-list';
-import PersonDetails from '../person-details';
+import ItemDetails from '../item-details';
+import Row from '../row';
+import ErrorBoundary from '../error-boundary';
 import './people-page.css';
-
-class ErrorBoundary extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      hasError: false,
-    };
-  }
-  componentDidCatch() {
-    this.setState({ hasError: true });
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <ErrorIndicator />;
-    }
-
-    return this.props.children;
-  }
-}
-
-const Row = ({ left, right }) => {
-  return (
-    <div className="row mb-2">
-      <div className="col md-6">{left}</div>
-      <div className="col md-6">{right}</div>
-    </div>
-  );
-};
 
 class PeoplePage extends Component {
   constructor() {
@@ -68,7 +40,7 @@ class PeoplePage extends Component {
 
     const personDetails = (
       <ErrorBoundary>
-        <PersonDetails personId={this.state.selectedPerson} />
+        <ItemDetails personId={this.state.selectedPerson} />
       </ErrorBoundary>
     );
 

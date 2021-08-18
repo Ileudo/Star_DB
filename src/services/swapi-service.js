@@ -1,10 +1,11 @@
 class SwapiService {
   constructor() {
-    this.BASE_URL = 'https://swapi.dev/api';
+    this._apiBase = 'https://swapi.dev/api';
+    this._imageBase = 'https://starwars-visualguide.com/assets/img';
   }
 
   getResource = async (url) => {
-    const res = await fetch(`${this.BASE_URL}${url}`);
+    const res = await fetch(`${this._apiBase}${url}`);
 
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, received ${res.status}`);
@@ -46,6 +47,18 @@ class SwapiService {
   _extractId = (item) => {
     const idRegExp = /\/([0-9]+)\/$/;
     return item.url.match(idRegExp)[1];
+  };
+
+  getPersonImage = ({ id }) => {
+    return `${this._imageBase}/characters/${id}.jpg`;
+  };
+
+  getStarshipImage = ({ id }) => {
+    return `${this._imageBase}/starships/${id}.jpg`;
+  };
+
+  getPlanetImage = ({ id }) => {
+    return `${this._imageBase}/planets/${id}.jpg`;
   };
 
   //Принимаем на вход планету от API, а возвращаем объект в том формате, в каком мы его хотим видеть.
