@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
-import ErrorButton from '../error-button/error-button';
+import SwapiService from '../../services/swapi-service';
 import ErrorIndicator from '../error-indicator/error-indicator';
 import ItemsList from '../items-list';
 import PersonDetails from '../person-details';
 import './people-page.css';
 
+const Row = ({ left, right }) => {
+  return (
+    <div className="row mb-2">
+      <div className="col md-6">{left}</div>
+      <div className="col md-6">{right}</div>
+    </div>
+  );
+};
+
 class PeoplePage extends Component {
   constructor() {
     super();
+
+    this.swapiService = new SwapiService();
 
     this.state = {
       selectedPerson: 3,
@@ -20,7 +31,6 @@ class PeoplePage extends Component {
   };
 
   componentDidCatch(error, info) {
-    debugger;
     this.setState({ hasError: true });
   }
 
@@ -29,17 +39,21 @@ class PeoplePage extends Component {
       return <ErrorIndicator />;
     }
 
-    return (
-      <div className="row mb-2">
-        <div className="col md-6">
-          <ItemsList onItemSelected={this.onPersonSelected} />
-        </div>
-        <div className="col md-6">
-          <PersonDetails personId={this.state.selectedPerson} />
-          <ErrorButton />
-        </div>
-      </div>
+    const itemsList = (
+      <ItemsList
+        onItemSelected={this.onPersonSelected} // Вывод доп. информации по клику
+        getData={this.swapiService.getAllPeople} // Получение данных
+        renderItem={({ name, gender, birthYear }) =>
+          `${name} (${gender}, ${birthYear})`
+        } // рендер-функция
+      />
     );
+
+    const personDetails = (
+      <PersonDetails personId={this.state.selectedPerson} />
+    );
+
+    return <Row left={itemsList} right={personDetails} />;
   }
 }
 
