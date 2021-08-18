@@ -1,30 +1,7 @@
-import React, { Component } from 'react';
-import SwapiService from '../../services/swapi-service';
-import { withData } from '../hoc-helpers/with-data';
+import React from 'react';
+import Spinner from '../spinner';
+import ErrorIndicator from '../error-indicator/error-indicator';
 
-import './items-list.css';
-
-const ItemsList = (props) => {
-  const { data, onItemSelected, children: renderLabel } = props;
-  const items = data.map((item) => {
-    const { id } = item;
-    const label = renderLabel(item); // Вывод информации внутри li списка
-
-    return (
-      <li
-        className="list-group-item"
-        key={id}
-        onClick={() => onItemSelected(id)}
-      >
-        {label}
-      </li>
-    );
-  });
-  return <ul className="item-list list-group">{items}</ul>;
-};
-
-// Мы создали пустой компонент-обертку, который вызывает наш основной компонент и передает
-// ему все те же свойства, которые он получил сам.
 const withData = (View, getData) => {
   return class extends Component {
     constructor() {
@@ -61,6 +38,4 @@ const withData = (View, getData) => {
   };
 };
 
-const { getAllPeople } = new SwapiService();
-
-export default withData(ItemsList, getAllPeople);
+export default withData;
