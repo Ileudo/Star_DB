@@ -6,8 +6,26 @@ import SwapiService from '../../services/swapi-service';
 const swapiService = new SwapiService();
 const { getAllPeople, getAllPlanets, getAllStarships } = swapiService;
 
-const PersonList = withData(ItemsList, getAllPeople);
-const PlanetList = withData(ItemsList, getAllPlanets);
-const StarshipList = withData(ItemsList, getAllStarships);
+const withChildFunction = (Wrapped, fn) => {
+  return (props) => {
+    return <Wrapped {...props}>{fn}</Wrapped>;
+  };
+};
+
+const renderName = ({ name }) => <span>{name}</span>;
+const renderModelAndName = ({ name, model }) => (
+  <span>
+    {name} ({model})
+  </span>
+);
+
+const ListWithChildren = withChildFunction(ItemsList, renderName);
+
+const PersonList = withData(ListWithChildren, getAllPeople);
+const PlanetList = withData(ListWithChildren, getAllPlanets);
+const StarshipList = withData(
+  withChildFunction(ItemsList, renderModelAndName),
+  getAllStarships
+);
 
 export { PersonList, PlanetList, StarshipList };
