@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import SwapiService from '../../services/swapi-service';
 import ErrorButton from '../error-button/error-button';
 
 import './item-details.css';
@@ -18,8 +17,6 @@ export { Record };
 class ItemDetails extends Component {
   constructor() {
     super();
-
-    this.swapiService = new SwapiService();
 
     this.state = {
       item: null,
@@ -48,19 +45,18 @@ class ItemDetails extends Component {
     this.setState({ loading: true });
 
     getData(itemId).then((item) => {
-      console.log(item);
       this.setState({ item, loading: false, image: getImageUrl(item) });
     });
   }
 
   render() {
-    const { item, loading, image } = this.state;
+    const { item, image } = this.state;
 
     if (!item) {
       return <span>Select a person from a list</span>;
     }
 
-    const { id, name, gender, birthYear, eyeColor } = item;
+    const { name } = item;
 
     return (
       <div className="item-details card">

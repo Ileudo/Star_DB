@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
+import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
-import ErrorIndicator from '../error-indicator/error-indicator';
 
-const withData = (View, getData) => {
+export const withData = (View, getData) => {
   return class extends Component {
     constructor() {
       super();
@@ -37,5 +37,3 @@ const withData = (View, getData) => {
     }
   };
 };
-
-export default withData;

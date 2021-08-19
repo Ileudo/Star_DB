@@ -1,4 +1,7 @@
-class ErrorBoundary extends Component {
+import React, { Component } from 'react';
+import ErrorIndicator from '../error-indicator/error-indicator';
+
+export default class ErrorBoundary extends Component {
   constructor() {
     super();
 
@@ -19,5 +22,3 @@ class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
-
-export default ErrorBoundary;
