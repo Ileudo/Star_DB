@@ -1,4 +1,4 @@
-import { PersonList, PlanetList, StarshipList } from './item-lists';
+import { PersonList, PlanetList, StarshipList } from './item-list-hoc';
 import { PersonDetails, PlanetDetails, StarshipDetails } from './details';
 
 export {

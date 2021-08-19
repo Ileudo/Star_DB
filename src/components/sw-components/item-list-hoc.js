@@ -6,9 +6,11 @@ import SwapiService from '../../services/swapi-service';
 const swapiService = new SwapiService();
 const { getAllPeople, getAllPlanets, getAllStarships } = swapiService;
 
-const withChildFunction = (Wrapped, fn) => {
+// Эта функция умеет брать любой React-компонент  и устанавливать ему в качестве children
+// заданную функцию.
+const withChildFunction = (AnyComponent, fn) => {
   return (props) => {
-    return <Wrapped {...props}>{fn}</Wrapped>;
+    return <AnyComponent {...props}>{fn}</AnyComponent>;
   };
 };
 
@@ -19,10 +21,16 @@ const renderModelAndName = ({ name, model }) => (
   </span>
 );
 
-const ListWithChildren = withChildFunction(ItemsList, renderName);
+const PersonList = withData(
+  withChildFunction(ItemsList, renderName),
+  getAllPeople
+);
 
-const PersonList = withData(ListWithChildren, getAllPeople);
-const PlanetList = withData(ListWithChildren, getAllPlanets);
+const PlanetList = withData(
+  withChildFunction(ItemsList, renderName),
+  getAllPlanets
+);
+
 const StarshipList = withData(
   withChildFunction(ItemsList, renderModelAndName),
   getAllStarships

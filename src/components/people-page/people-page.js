@@ -27,12 +27,10 @@ class PeoplePage extends Component {
       return <ErrorIndicator />;
     }
 
-    // Вывод доп. информации по клику
-    // Получение данных
     const itemsList = (
       <ItemsList
-        onItemSelected={this.onPersonSelected}
-        getData={this.swapiService.getAllPeople}
+        onItemSelected={this.onPersonSelected} // Вывод доп. информации по клику
+        getData={this.swapiService.getAllPeople} // Получение данных
       >
         {(item) => `${item.name} (${item.birthYear})`}
       </ItemsList>

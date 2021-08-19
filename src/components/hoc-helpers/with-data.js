@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
 
-export const withData = (View, getData) => {
+export const withData = (AnyComponent, getData) => {
   return class extends Component {
     constructor() {
       super();
@@ -33,7 +33,7 @@ export const withData = (View, getData) => {
         return <Spinner />;
       }
 
-      return <View {...this.props} data={data} />;
+      return <AnyComponent {...this.props} data={data} />;
     }
   };
 };

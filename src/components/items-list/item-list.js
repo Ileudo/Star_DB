@@ -1,11 +1,11 @@
 import React from 'react';
-import './items-list.css';
+import './item-list.css';
 
-const ItemsList = (props) => {
-  const { data, onItemSelected, children: renderLabel } = props;
+const ItemList = (props) => {
+  const { data, onItemSelected, children: renderContent } = props;
   const items = data.map((item) => {
     const { id } = item;
-    const label = renderLabel(item); // Вывод информации внутри li списка
+    const content = renderContent(item); // Вывод информации внутри li списка
 
     return (
       <li
@@ -13,11 +13,11 @@ const ItemsList = (props) => {
         key={id}
         onClick={() => onItemSelected(id)}
       >
-        {label}
+        {content}
       </li>
     );
   });
   return <ul className="item-list list-group">{items}</ul>;
 };
 
-export default ItemsList;
+export default ItemList;
