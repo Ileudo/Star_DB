@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
+import ErrorIndicator from '../error-indicator';
 
 //withData это компонент, который занимается тем, что получает данные и отображает состояние в
 // в правильном виде. То если данные всё еще загружаются, отображается спиннер. А если уже
@@ -12,6 +12,8 @@ const withData = (AnyComponent) => {
 
       this.state = {
         data: null,
+        loading: true,
+        error: false,
       };
     }
 
@@ -37,16 +39,28 @@ const withData = (AnyComponent) => {
       // помощи функции withSwapiService научились передавать нужный метод сервиса в компонент,
       // да еще и под нужным именем. Поэтому в этом компоненте нам теперь не нужно передавать
       // getData в явном виде. Вместо этого возьмем getData из props.
-      this.props.getData().then((data) => {
-        this.setState({ data });
-      });
+
+      this.setState({ loading: true, error: false });
+
+      this.props
+        .getData()
+        .then((data) => {
+          this.setState({ data, loading: false });
+        })
+        .catch(() => {
+          this.setState({ error: true, loading: false });
+        });
     }
 
     render() {
-      const { data } = this.state;
+      const { data, loading, error } = this.state;
 
-      if (!data) {
+      if (loading) {
         return <Spinner />;
+      }
+
+      if (error) {
+        return <ErrorIndicator />;
       }
 
       return <AnyComponent {...this.props} data={data} />;
