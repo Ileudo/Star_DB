@@ -1,6 +1,11 @@
 .header {
-  margin-top: 0.5rem;
-  padding-left: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h3,
+.header ul {
+  margin-bottom: 0;
 }
 
 .header ul li {

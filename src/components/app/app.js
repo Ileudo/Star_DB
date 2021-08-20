@@ -20,12 +20,15 @@ class App extends Component {
   constructor() {
     super();
 
-    this.swapiService = new SwapiService();
-
     this.state = {
       showRandomPlanet: true,
       hasError: false,
+      swapiService: new SwapiService(),
     };
+  }
+
+  componentDidCatch() {
+    this.setState({ hasError: true });
   }
 
   toggleRandomPlanet = () => {
@@ -36,18 +39,24 @@ class App extends Component {
     });
   };
 
-  componentDidCatch() {
-    this.setState({ hasError: true });
-  }
+  onServiceChange = () => {
+    this.setState(({ swapiService }) => {
+      const Service =
+        swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
+      return {
+        swapiService: new Service(),
+      };
+    });
+  };
 
   render() {
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
     return (
       <ErrorBoundary>
-        <SwapiServiceProvider value={this.swapiService}>
+        <SwapiServiceProvider value={this.state.swapiService}>
           <div className="stardb-app">
-            <Header />
+            <Header onServiceChange={this.onServiceChange} />
 
             <PersonDetails itemId={11} />
             <PlanetDetails itemId={5} />
