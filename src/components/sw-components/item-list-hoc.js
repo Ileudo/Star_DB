@@ -1,5 +1,5 @@
 import React from 'react';
-import ItemsList from '../items-list';
+import ItemsList from '../item-list';
 import { withData } from '../hoc-helpers/with-data';
 import SwapiService from '../../services/swapi-service';
 
