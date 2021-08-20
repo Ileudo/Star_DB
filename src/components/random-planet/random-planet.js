@@ -6,6 +6,10 @@ import Spinner from '../spinner';
 import './random-planet.css';
 
 class RandomPlanet extends Component {
+  static defaultProps = {
+    updateInterval: 1000,
+  };
+
   constructor() {
     super();
 
@@ -19,8 +23,9 @@ class RandomPlanet extends Component {
   }
 
   componentDidMount() {
+    const { updateInterval } = this.props;
     this.updatePlanet();
-    this.interval = setInterval(this.updatePlanet, 10000);
+    this.interval = setInterval(this.updatePlanet, updateInterval);
   }
 
   componentWillUnmount() {
