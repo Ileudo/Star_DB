@@ -1,6 +1,6 @@
 import React from 'react';
 import ItemList from '../item-list';
-import { withData, withSwapiService } from '../hoc-helpers/with-data';
+import { withData, withSwapiService } from '../hoc-helpers';
 
 // Эта функция умеет брать любой React-компонент  и устанавливать ему в качестве children
 // заданную функцию.

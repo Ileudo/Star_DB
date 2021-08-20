@@ -20,7 +20,7 @@ class App extends Component {
   constructor() {
     super();
 
-    this.swapiService = new DummySwapiService();
+    this.swapiService = new SwapiService();
 
     this.state = {
       showRandomPlanet: true,
