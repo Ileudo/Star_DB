@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
 
-export const withData = (AnyComponent, getData) => {
+//withData это компонент, который занимается тем, что получает данные и отображает состояние в
+// в правильном виде. То если данные всё еще загружаются, отображается спиннер. А если уже
+// загружены, отображаются данные. И ещё мы хотели добавить в этот компонент Error Handler.
+const withData = (AnyComponent, getData) => {
   return class extends Component {
     constructor() {
       super();
@@ -21,7 +24,11 @@ export const withData = (AnyComponent, getData) => {
     // конструктора считается плохой практикой в ООП.
 
     componentDidMount() {
-      getData().then((data) => {
+      //Изначально этот компонент получал функцию getData как внешний аргумент. Но теперь мы при
+      // помощи функции withSwapiService научились передавать нужный метод сервиса в компонент,
+      // да еще и под нужным именем. Поэтому в этом компоненте нам теперь не нужно передавать
+      // getData в явном виде. Вместо этого возьмем getData из props.
+      this.props.getData().then((data) => {
         this.setState({ data });
       });
     }
@@ -37,3 +44,5 @@ export const withData = (AnyComponent, getData) => {
     }
   };
 };
+
+export { withData };
