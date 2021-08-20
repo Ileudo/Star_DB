@@ -10,6 +10,19 @@ class RandomPlanet extends Component {
     updateInterval: 1000,
   };
 
+  // Проверка propTypes срабатывает после defaultProps, поэтому к моменту валидации
+  // значения уже будут присвоены.
+  static propTypes = {
+    updateInterval: (props, propName, compName) => {
+      const value = props[propName];
+      if (typeof value === 'number' && !isNaN(value)) {
+        return null;
+      }
+
+      return new TypeError(`${compName}: ${propName} must be number`);
+    },
+  };
+
   constructor() {
     super();
 
