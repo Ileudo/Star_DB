@@ -1,28 +1,17 @@
-import React, { Component } from 'react';
-import Row from '../row';
-import { StarshipList, StarshipDetails } from '../sw-components';
+import React from 'react';
+import { StarshipList } from '../sw-components';
+import { withRouter } from 'react-router';
 
-export default class StarshipsPage extends Component {
-  constructor() {
-    super();
+const StarshipsPage = ({ history }) => {
+  return (
+    <StarshipList
+      onItemSelected={(id) => {
+        history.push(id);
+      }}
+    />
+  );
+};
 
-    this.state = {
-      selectedItem: null,
-    };
-  }
-
-  onItemSelected = (selectedItem) => {
-    this.setState({ selectedItem });
-  };
-
-  render() {
-    const { selectedItem } = this.state;
-
-    return (
-      <Row
-        left={<StarshipList onItemSelected={this.onItemSelected} />}
-        right={<StarshipDetails itemId={selectedItem} />}
-      />
-    );
-  }
-}
+// Теперь этот HOC (withRouter) передаст в StarshipsPage те самые три объекта, которые
+// использует react-router. Это match, location и history. И нам будет нужен только history.
+export default withRouter(StarshipsPage);
