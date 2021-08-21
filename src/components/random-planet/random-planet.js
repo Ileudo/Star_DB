@@ -8,7 +8,7 @@ import './random-planet.css';
 
 class RandomPlanet extends Component {
   static defaultProps = {
-    updateInterval: 1000,
+    updateInterval: 10000,
   };
 
   // Проверка propTypes срабатывает после defaultProps, поэтому к моменту валидации
