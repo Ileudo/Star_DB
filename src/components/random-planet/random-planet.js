@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import ErrorIndicator from '../error-indicator/error-indicator';
 import Spinner from '../spinner';
+import PropTypes from 'prop-types';
 
 import './random-planet.css';
 
@@ -13,14 +14,7 @@ class RandomPlanet extends Component {
   // Проверка propTypes срабатывает после defaultProps, поэтому к моменту валидации
   // значения уже будут присвоены.
   static propTypes = {
-    updateInterval: (props, propName, compName) => {
-      const value = props[propName];
-      if (typeof value === 'number' && !isNaN(value)) {
-        return null;
-      }
-
-      return new TypeError(`${compName}: ${propName} must be number`);
-    },
+    updateInterval: PropTypes.number,
   };
 
   constructor() {
